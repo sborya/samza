@@ -20,8 +20,9 @@
 package org.apache.samza.job.local
 
 import java.util
+
 import org.apache.samza.SamzaException
-import org.apache.samza.config.{Config, JobConfig, TaskConfigJava}
+import org.apache.samza.config.{Config, JavaJobConfig1, JobConfig, TaskConfigJava}
 import org.apache.samza.config.TaskConfig._
 import org.apache.samza.container.TaskName
 import org.apache.samza.coordinator.JobModelManager
@@ -30,6 +31,7 @@ import org.apache.samza.job.{CommandBuilder, ShellCommandBuilder, StreamJob, Str
 import org.apache.samza.metrics.MetricsRegistryMap
 import org.apache.samza.storage.ChangelogStreamManager
 import org.apache.samza.util.{Logging, Util}
+
 import scala.collection.JavaConversions._
 
 /**
@@ -37,7 +39,7 @@ import scala.collection.JavaConversions._
  */
 class ProcessJobFactory extends StreamJobFactory with Logging {
   def getJob(config: Config): StreamJob = {
-    val containerCount = JobConfig.Config2Job(config).getContainerCount
+    val containerCount = new JavaJobConfig1(config).getContainerCount
 
     if (containerCount > 1) {
       throw new SamzaException("Container count larger than 1 is not supported for ProcessJobFactory")
