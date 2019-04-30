@@ -131,6 +131,8 @@ public class RemoteTableProvider extends BaseTableProvider {
     tables.forEach(t -> t.close());
     rateLimitingExecutors.values().forEach(e -> e.shutdown());
     callbackExecutors.values().forEach(e -> e.shutdown());
+    callbackExecutors.clear();
+    rateLimitingExecutors.clear();
   }
 
   private <T> T deserializeObject(JavaTableConfig tableConfig, String key) {
